@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do-Liste</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        #todo-list {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .task-text {
+            flex: 1;
+            padding: 5px;
+            border: none;
+            margin-right: 5px;
+            text-decoration: none;
+        }
+        .strike-through {
+            text-decoration: line-through;
+        }
+        .delete-button, .strike-button {
+            background-color: #ff0000; /* Rot */
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 5px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="todo-list">
+        <h1>Meine To-Do-Liste</h1>
+        <input type="text" id="task" placeholder="Neue Aufgabe eingeben">
+        <button onclick="addTask()">Hinzufügen</button>
+        <ul id="task-list">
+        </ul>
+    </div>
+
+    <script>
+        function addTask() {
+            var taskInput = document.getElementById("task");
+            var taskText = taskInput.value.trim();
+
+            if (taskText !== "") {
+                var taskList = document.getElementById("task-list");
+                var li = document.createElement("li");
+                var taskTextElement = document.createElement("span");
+                taskTextElement.className = "task-text";
+                taskTextElement.textContent = taskText;
+                li.appendChild(taskTextElement);
+
+                var deleteButton = document.createElement("button");
+                deleteButton.className = "delete-button";
+                deleteButton.innerHTML = '<i class="fas fa-trash"></i>'; // Icon für Löschen
+                deleteButton.onclick = function() {
+                    taskList.removeChild(li);
+                };
+                li.appendChild(deleteButton);
+
+                var strikeButton = document.createElement("button");
+                strikeButton.className = "strike-button";
+                strikeButton.innerHTML = '<i class="fas fa-strikethrough"></i>'; // Icon für Streichen
+                strikeButton.onclick = function() {
+                    taskTextElement.classList.toggle("strike-through");
+                };
+                li.appendChild(strikeButton);
+
+                taskList.appendChild(li);
+                taskInput.value = "";
+                taskInput.focus();
+            }
+        }
+
+        // Enter-Taste zum Hinzufügen von Aufgaben verwenden
+        document.getElementById("task").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                addTask();
+            }
+        });
+    </script>
+</body>
+</html>
